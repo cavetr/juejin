@@ -15,7 +15,7 @@ function FrontPage() {
     console.log(categories);
   }, []);
   return (
-    <>
+    <div>
       <FirstHeadTab categories={categories} />
       <Routes>
         <Route index element={<SecondPage next={categories[0]?.category_id ?? null} />}></Route>
@@ -26,7 +26,7 @@ function FrontPage() {
           );
         })}
       </Routes>
-    </>
+    </div>
   )
 }
 export default FrontPage;

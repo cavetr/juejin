@@ -16,7 +16,7 @@ function HotPage() {
 }
 function App() {
   return (
-    <>
+    <div>
       <Routes>
         <Route path="/" element={<Navigate to="hot/hot"/>}></Route>
         {/* <Route path="hot/*" element={<FrontPage/>}></Route>
@@ -28,7 +28,7 @@ function App() {
         <Route path="*" element={<ErrorPage />}></Route>
       </Routes>
       <BottomTab></BottomTab>
-    </>
+    </div>
   )
 }
 

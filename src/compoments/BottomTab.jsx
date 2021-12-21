@@ -12,7 +12,7 @@ function BottomTab() {
     tab: '历史'
   }];
   return (
-    <div>
+    <div className="h-10 flex flex-row justify-around w-full items-center">
       {tabs.map(({ path, tab }, index) => {
         return (
           <Link key={index} to={`${path}/${path}`}>
