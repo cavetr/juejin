@@ -36,7 +36,7 @@ export async function getArticles(categoryId = 0, sortBy = 'hot', offset = 0, li
   if (sortFunc) {
     articlesWithCategory.sort(sortFunc);
   }
-  console.log(articlesWithCategory.slice(offset).slice(0, limit));
+  // console.log(articlesWithCategory.slice(offset).slice(0, limit));
   return {
     code: 0,
     data: {

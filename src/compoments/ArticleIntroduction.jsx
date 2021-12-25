@@ -1,11 +1,24 @@
 import { useNavigate } from "react-router-dom";
 
-function ArticleIntroduction ({author, article}) {
+function ArticleIntroduction({articleId, author, content, title }) {
   const navigate = useNavigate();
+  function toArticle() {
+    const article = {
+      articleId,
+      author,
+      content,
+      title,
+    }
+    console.log(article);
+    navigate(`../../../article/${articleId}`);
+    const nowHistory = localStorage.getItem("myHistory");
+    localStorage.setItem("myHistory", `${JSON.stringify(article)}${nowHistory ? "," + nowHistory : ""}`);
+    console.log(localStorage.getItem("myHistory").split("},").slice(0,20));
+  }
   return (
-    <div onClick={()=>navigate(`../../../article/${article.article_id}`)} className="text-purple-700">
-      <p>{author.user_name}</p>
-      <p>{article.brief_content}</p>
+    <div onClick={toArticle} className="text-purple-700">
+      <p>{author}</p>
+      <p>{content}</p>
     </div>
   );
 }

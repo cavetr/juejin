@@ -12,7 +12,7 @@ function FrontPage() {
       setCategories((await getCategories()).data.categories);
     }
     getTheCategories();
-    console.log(categories);
+    // console.log(categories);
   }, []);
   return (
     <div>
@@ -20,7 +20,7 @@ function FrontPage() {
       <Routes>
         <Route index element={<SecondPage next={categories[0]?.category_id ?? null} />}></Route>
         {(categories).map(({ category_id, children }) => {
-          console.log(category_id, children);
+          // console.log(category_id, children);
           return (
             <Route key={category_id} path={`${category_id}/*`} element={<SecondPage categories={children} beforeId={category_id} />}></Route>
           );

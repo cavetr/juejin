@@ -14,7 +14,15 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
     while (thisArticles.length < 20) {
       let allArticles = [];
       if (isHistory) {
-
+        const begin = nowArticleNumber + nowArticleNumber + thisArticles.length;
+        allArticles = localStorage
+          .getItem("myHistory")
+          .split(/(?<=}),/g)
+          .slice(begin, begin + 20)
+          .map((item) => {
+            console.log(item);
+            return JSON.parse(item);
+          });
       } else {
         allArticles = (await getArticles(category_id, params.sortType, nowArticleNumber + nowArticleNumber + thisArticles.length, 20)).data.articles;
       }
@@ -23,17 +31,17 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
         break;
       }
       for (const article of allArticles) {
-        console.log(nowArticleIds.has(article.article_id) || articleIds_t.has(article.article_id));
-        if (nowArticleIds.has(article.article_id) || articleIds_t.has(article.article_id)) {
+        if (nowArticleIds.has(article.article_id || article.articleId) || articleIds_t.has(article.article_id  || article.articleId)) {
           nowArticleNumber++;
         } else {
           thisArticles.push(article);
-          articleIds_t.add(article.article_id);
+          articleIds_t.add(article.article_id || article.articleId);
           if (thisArticles.length === 20) {
             break;
           }
         }
       }
+      // console.log(nowArticleIds, articleIds_t);
     };
     setArticleNumber(nowArticleNumber);
     setArticleIds(new Set([...nowArticleIds, ...articleIds_t]));
@@ -41,7 +49,6 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
   }
   useEffect(() => {
     getNewArticles();
-    console.log(category_id)
   }, [category_id]);
   function check() {
     if (scrollEl.current.getBoundingClientRect().bottom <= scrollEl.current.parentNode.getBoundingClientRect().bottom) {
@@ -51,8 +58,14 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
   }
   return (
     <div onScroll={check} className="overflow-scroll " style={{ height: `calc(100vh ${category_id ? '- 7.5rem' : '- 5rem'})` }}>
-      {articles.map(({ article_id, article_info, author_user_info }) => {
-        return (<ArticleIntroduction key={article_id} author={author_user_info} article={article_info} />)
+      {articles.map((item) => {
+        if (isHistory) {
+          console.log(articles);
+          const { articleId, author, content, title } = item;
+          return (<ArticleIntroduction key={articleId} articleId={articleId} author={author} content={content} title={title} />)
+        }
+        const { article_id, article_info: { brief_content, title }, author_user_info: { user_name } } = item;
+        return (<ArticleIntroduction key={article_id} articleId={article_id} author={user_name} content={brief_content} title={title} />)
       })}
       <div ref={scrollEl} />
     </div>

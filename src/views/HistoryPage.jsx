@@ -3,7 +3,7 @@ import ArticleIntroductionList from "../compoments/ArticleIntroductionList";
 function HistoryPage(props) {
   return (
     <>
-      {/* <ArticleIntroductionList /> */}
+      <ArticleIntroductionList isHistory = {true}/>
     </>
   )
 }
