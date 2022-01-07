@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function BottomTab() {
   const tabs = [{
@@ -11,13 +11,17 @@ function BottomTab() {
     path: 'history',
     tab: '历史'
   }];
+  function getTabStyle({ isActive }) {
+    const tabStyle = "text-xl"
+    return `${tabStyle}${isActive ? " text-purple-600" : ""}`;
+  }
   return (
     <div className="h-10 flex flex-row justify-around w-full items-center">
       {tabs.map(({ path, tab }, index) => {
         return (
-          <Link key={index} to={`${path}/${path}`}>
+          <NavLink className={getTabStyle} key={index} to={`${path}/${path}`}>
             {tab}
-          </Link>
+          </NavLink>
         );
       })}
     </div>

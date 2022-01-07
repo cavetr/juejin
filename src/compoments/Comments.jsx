@@ -16,14 +16,11 @@ function Comments({ articleId }) {
   }, []);
   async function getNewComments() {
     const t = (await getCommentsByArticleId(articleId, commentNumber.current, 20)).data.comments;
-    // console.log(t.length)
     setComments((prevState) => [...prevState, ...t]);
     commentNumber.current += 20;
   }
   function check() {
-    // console.log("scroll", scrollEl.current.getBoundingClientRect().bottom, scrollEl.current.parentNode.getBoundingClientRect().bottom);
     if (scrollEl.current.getBoundingClientRect().bottom <= scrollEl.current.parentNode.getBoundingClientRect().bottom + 1) {
-      // console.log("get new data!");
       getNewComments();
     }
   }

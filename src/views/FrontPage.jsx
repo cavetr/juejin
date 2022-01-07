@@ -18,9 +18,8 @@ function FrontPage() {
     <div>
       <FirstHeadTab categories={categories} />
       <Routes>
-        <Route index element={<SecondPage next={categories[0]?.category_id ?? null} />}></Route>
+        <Route path="/" element={<SecondPage/>}></Route>
         {(categories).map(({ category_id, children }) => {
-          // console.log(category_id, children);
           return (
             <Route key={category_id} path={`${category_id}/*`} element={<SecondPage categories={children} beforeId={category_id} />}></Route>
           );

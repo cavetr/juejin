@@ -18,7 +18,7 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Navigate to="hot/hot"/>}></Route>
+        <Route path="/" element={<Navigate to="hot/hot/0"/>}></Route>
         {/* <Route path="hot/*" element={<FrontPage/>}></Route>
         <Route path="new/*" element={<FrontPage/>}></Route> */}
         <Route path="hot/:sortType/*" element={<HotPage/>}></Route>

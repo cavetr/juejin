@@ -13,17 +13,17 @@ function ArticlePage() {
     // console.log()
   }, []);
   return (
-    <div>
+    <>
       <ArticleHead title={article?.article_info.title} />
       <div className="overflow-scroll" style={{ height: "calc(100vh - 5rem)" }}>
         <article className="p-8 ">
-          <div className="text-3xl">{article?.article_info.title} </div>
+          <div className="text-4xl font-bold">{article?.article_info.title} </div>
           <div dangerouslySetInnerHTML={{ __html: article?.article_content }} />
         </article>
+        <span className="text-2xl font-bold m-6">{`全部评论 ${article?.article_info.comment_count}`}</span>
         <Comments articleId={params.articleId} />
       </div>
-
-    </div>
+    </>
   )
 }
 export default ArticlePage;
