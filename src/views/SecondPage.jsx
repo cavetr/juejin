@@ -6,7 +6,7 @@ import ErrorPage from './ErrorPage';
 function SecondPage({ beforeId, categories = [] }) {
   return (
     <div>
-      <SecondHeadTab categories={categories} />
+      <SecondHeadTab categories={categories}/>
       <Routes>
         <Route path="/" element={<ArticleIntroductionList category_id={beforeId} />}></Route>
         {(categories).map(({ category_id }) => {

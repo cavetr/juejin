@@ -1,21 +1,23 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { getArticles } from "../../fake-api/index";
+
 import ArticleIntroduction from "./ArticleIntroduction";
+import GoTop from "./GoTop";
 function ArticleIntroductionList({ category_id, isHistory = false }) {
   const [articles, setArticles] = useState([]);
-  const [articleNumber, setArticleNumber] = useState(0);
-  const [articleIds, setArticleIds] = useState(new Set());
+  const articleNumber = useRef(0);
+  const articleIds = useRef(new Set());
   const scrollEl = useRef(null);
+  const scrollBody = useRef(null);
   const params = useParams();
   const height = `calc(100vh ${category_id ? '- 7.5rem' : (isHistory ? '- 2.5rem' : '- 5rem')})`;
-  async function getNewArticles(nowArticles = [], nowArticleNumber = 0, nowArticleIds = new Set()) {
+  async function getNewArticles(nowArticles = []) {
     const thisArticles = [];
-    const articleIds_t = new Set();
     while (thisArticles.length < 20) {
-      let allArticles = [];
+      let allArticles = null;
       if (isHistory) {
-        const begin = nowArticleNumber + nowArticleNumber + thisArticles.length;
+        const begin = articleNumber.current;
         allArticles = localStorage
           .getItem("myHistory")
           .split(/(?<=}),,/g)
@@ -24,52 +26,52 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
             return JSON.parse(item);
           });
       } else {
-        allArticles = (await getArticles(category_id, params.sortType, nowArticleNumber + nowArticleNumber + thisArticles.length, 20)).data.articles;
+        allArticles = (await getArticles(category_id, params.sortType, articleNumber.current, 20)).data.articles;
       }
       if (!allArticles.length) {
-        // console.log('over');
         break;
       }
       for (const article of allArticles) {
-        if (nowArticleIds.has(article.article_id || article.articleId) || articleIds_t.has(article.article_id || article.articleId)) {
-          nowArticleNumber++;
-        } else {
+        articleNumber.current++;
+        if (!articleIds.current.has(article.article_id || article.articleId)) {
           thisArticles.push(article);
-          articleIds_t.add(article.article_id || article.articleId);
+          articleIds.current.add(article.article_id || article.articleId);
           if (thisArticles.length === 20) {
             break;
           }
         }
       }
-      // console.log(nowArticleIds, articleIds_t);
     };
-    setArticleNumber(nowArticleNumber);
-    setArticleIds(new Set([...nowArticleIds, ...articleIds_t]));
+    console.log('over');
     setArticles([...nowArticles, ...thisArticles]);
   }
   useEffect(() => {
+    articleIds.current = new Set();
+    articleNumber.current = 0;
     getNewArticles();
-  }, [category_id]);
+  }, [category_id, isHistory]);
   function check() {
     if (scrollEl.current.getBoundingClientRect().bottom <= scrollEl.current.parentNode.getBoundingClientRect().bottom) {
-      // console.log('get new', scrollEl.current.getBoundingClientRect().bottom);
-      getNewArticles(articles, articleNumber, articleIds);
+      getNewArticles(articles);
     }
   }
   return (
-    <div onScroll={check} className="overflow-scroll " style={{ height }}>
-      {articles.map((item) => {
-        let articleId, author, content, title, time;
-        if (isHistory) {
-          ({ articleId, author, content, title, time } = item);
-        } else {
-          ({ article_id: articleId, article_info: { brief_content: content, title, ctime: time }, author_user_info: { user_name: author } } = item);
-        }
-        return (<ArticleIntroduction key={articleId} articleId={articleId} author={author} content={content} title={title} time={time} />)
-      })}
-      <div ref={scrollEl} />
-      <div className="h-20 flex items-center justify-center text-xl">没有更多了！</div>
-    </div>
+    <>
+      <div onScroll={check} className="overflow-scroll " style={{ height }} ref={scrollBody}>
+        {articles.map((item) => {
+          let articleId, author, content, title, time;
+          if (isHistory) {
+            ({ articleId, author, content, title, time } = item);
+          } else {
+            ({ article_id: articleId, article_info: { brief_content: content, title, ctime: time }, author_user_info: { user_name: author } } = item);
+          }
+          return (<ArticleIntroduction key={articleId} articleId={articleId} author={author} content={content} title={title} time={time} />)
+        })}
+        <div ref={scrollEl} />
+        <div className="h-20 flex items-center justify-center text-xl">没有更多了！</div>
+      </div>
+      <GoTop el={scrollBody.current}/>
+    </>
   )
 }
 export default ArticleIntroductionList;

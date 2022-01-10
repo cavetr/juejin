@@ -26,7 +26,6 @@ export async function getArticles(categoryId = 0, sortBy = 'hot', offset = 0, li
     new: (a, b) => b.article_info.ctime - a.article_info.ctime,
     hot: (a, b) => b.article_info.digg_count - a.article_info.digg_count,
   }[sortBy];
-  // console.log(categoryId, sortBy, offset, limit)
   const articlesWithCategory = categoryId ?
     articles.filter(
       a => a.category_info.first_category_id === categoryId || a.category_info.second_category_id === categoryId
@@ -36,7 +35,6 @@ export async function getArticles(categoryId = 0, sortBy = 'hot', offset = 0, li
   if (sortFunc) {
     articlesWithCategory.sort(sortFunc);
   }
-  // console.log(articlesWithCategory.slice(offset).slice(0, limit));
   return {
     code: 0,
     data: {
