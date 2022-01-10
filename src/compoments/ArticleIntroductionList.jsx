@@ -27,7 +27,7 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
         allArticles = (await getArticles(category_id, params.sortType, nowArticleNumber + nowArticleNumber + thisArticles.length, 20)).data.articles;
       }
       if (!allArticles.length) {
-        console.log('over');
+        // console.log('over');
         break;
       }
       for (const article of allArticles) {
@@ -52,7 +52,7 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
   }, [category_id]);
   function check() {
     if (scrollEl.current.getBoundingClientRect().bottom <= scrollEl.current.parentNode.getBoundingClientRect().bottom) {
-      console.log('get new', scrollEl.current.getBoundingClientRect().bottom);
+      // console.log('get new', scrollEl.current.getBoundingClientRect().bottom);
       getNewArticles(articles, articleNumber, articleIds);
     }
   }

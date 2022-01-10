@@ -1,6 +1,11 @@
+import { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 
 function BottomTab() {
+  const wtab = useRef(0);
+  useEffect(() => {
+    wtab.current = 0;
+  }, []);
   const tabs = [{
     path: 'hot',
     tab: '热门',
@@ -11,15 +16,16 @@ function BottomTab() {
     path: 'history',
     tab: '历史'
   }];
-  function getTabStyle({ isActive }) {
-    const tabStyle = "text-xl"
+  function getTabStyle(index) {
+    const isActive = (index === wtab.current);
+    const tabStyle = "text-xl";
     return `${tabStyle}${isActive ? " text-purple-600" : ""}`;
   }
   return (
-    <div className="h-10 flex flex-row justify-around w-full items-center">
+    <div className="h-10 flex flex-row justify-around w-full items-center border-t">
       {tabs.map(({ path, tab }, index) => {
         return (
-          <NavLink className={getTabStyle} key={index} to={`${path}/${path}`}>
+          <NavLink className={(_) => getTabStyle(index)} key={index} to={`${path}/${path}`} onClick={() => { wtab.current = index }}>
             {tab}
           </NavLink>
         );

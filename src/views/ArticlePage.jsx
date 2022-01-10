@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getArticleById } from "../../fake-api";
 import ArticleHead from "../compoments/ArticleHead";
-import Comments from "../compoments/Comments";
+import Comments from "../compoments/CommentList";
 
 function ArticlePage() {
   const params = useParams();

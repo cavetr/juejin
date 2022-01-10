@@ -19,8 +19,6 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<Navigate to="hot/hot/0"/>}></Route>
-        {/* <Route path="hot/*" element={<FrontPage/>}></Route>
-        <Route path="new/*" element={<FrontPage/>}></Route> */}
         <Route path="hot/:sortType/*" element={<HotPage/>}></Route>
         <Route path="new/:sortType/*" element={<NewPage/>}></Route>
         <Route path="history/history" element={<HistoryPage />}></Route>

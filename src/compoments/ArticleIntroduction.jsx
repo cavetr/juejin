@@ -10,11 +10,11 @@ function ArticleIntroduction({ articleId, author, content, title, time }) {
       title,
       time,
     }
-    console.log(article);
+    // console.log(article);
     navigate(`../../../article/${articleId}`);
     const nowHistory = localStorage.getItem("myHistory");
     localStorage.setItem("myHistory", `${JSON.stringify(article)}${nowHistory ? ",," + nowHistory : ""}`);
-    console.log(localStorage.getItem("myHistory").split("},").slice(0, 20));
+    // console.log(localStorage.getItem("myHistory").split("},").slice(0, 20));
   }
   return (
     <div onClick={toArticle} className="mx-6 py-4 border-b">

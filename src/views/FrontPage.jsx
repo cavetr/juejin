@@ -12,7 +12,6 @@ function FrontPage() {
       setCategories((await getCategories()).data.categories);
     }
     getTheCategories();
-    // console.log(categories);
   }, []);
   return (
     <div>
