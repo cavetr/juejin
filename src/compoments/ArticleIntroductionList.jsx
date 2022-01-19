@@ -1,17 +1,18 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { getArticles } from "../../fake-api/index";
 
+import InfiniteScroll from "./InfiniteScroll"
 import ArticleIntroduction from "./ArticleIntroduction";
 import GoTop from "./GoTop";
 function ArticleIntroductionList({ category_id, isHistory = false }) {
   const [articles, setArticles] = useState([]);
+  const articlesRef = useRef([]);
   const articleNumber = useRef(0);
   const articleIds = useRef(new Set());
-  const scrollEl = useRef(null);
   const scrollBody = useRef(null);
   const params = useParams();
-  const height = `calc(100vh ${category_id ? '- 7.5rem' : (isHistory ? '- 2.5rem' : '- 5rem')})`;
+  const height = `calc(100vh ${category_id ? '- 12.5rem' : (isHistory ? '- 5rem' : '- 9rem')})`;
   async function getNewArticles(nowArticles = []) {
     const thisArticles = [];
     while (thisArticles.length < 20) {
@@ -20,17 +21,20 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
         const begin = articleNumber.current;
         allArticles = localStorage
           .getItem("myHistory")
-          .split(/(?<=}),,/g)
+          ?.split(/(?<=}),,/g)
           .slice(begin, begin + 20)
           .map((item) => {
             return JSON.parse(item);
           });
+          console.log(allArticles)
       } else {
         allArticles = (await getArticles(category_id, params.sortType, articleNumber.current, 20)).data.articles;
+        console.log(allArticles);
       }
       if (!allArticles.length) {
         break;
       }
+      
       for (const article of allArticles) {
         articleNumber.current++;
         if (!articleIds.current.has(article.article_id || article.articleId)) {
@@ -42,23 +46,23 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
         }
       }
     };
-    console.log('over');
-    setArticles([...nowArticles, ...thisArticles]);
+    articlesRef.current=[...nowArticles, ...thisArticles];
+    setArticles([...articlesRef.current]);
   }
   useEffect(() => {
     articleIds.current = new Set();
     articleNumber.current = 0;
+    articlesRef.current = [];
     getNewArticles();
   }, [category_id, isHistory]);
-  function check() {
-    if (scrollEl.current.getBoundingClientRect().bottom <= scrollEl.current.parentNode.getBoundingClientRect().bottom) {
-      getNewArticles(articles);
-    }
-  }
+  const getMoreArticles = useCallback(() => {
+    getNewArticles(articlesRef.current);
+  }, [articlesRef.current]);
   return (
     <>
-      <div onScroll={check} className="overflow-scroll " style={{ height }} ref={scrollBody}>
+      <div className="overflow-scroll " style={{ height }} ref={scrollBody}>
         {articles.map((item) => {
+          console.log(articles)
           let articleId, author, content, title, time;
           if (isHistory) {
             ({ articleId, author, content, title, time } = item);
@@ -67,10 +71,10 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
           }
           return (<ArticleIntroduction key={articleId} articleId={articleId} author={author} content={content} title={title} time={time} />)
         })}
-        <div ref={scrollEl} />
+        <InfiniteScroll getMore={getMoreArticles}></InfiniteScroll>
         <div className="h-20 flex items-center justify-center text-xl">没有更多了！</div>
       </div>
-      <GoTop el={scrollBody.current}/>
+      <GoTop el={scrollBody.current} />
     </>
   )
 }

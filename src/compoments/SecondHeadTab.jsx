@@ -8,11 +8,11 @@ function SecondHeadTab({ categories = [] }) {
   }, [categories]);
   function getTabStyle(index) {
     const isActive = (index === tab);
-    const tabStyle = "text-lg mx-2 px-4 border rounded-full"
+    const tabStyle = "text-xl mx-2 px-4 border rounded-full"
     return `${tabStyle}${isActive ? " text-white bg-purple-600" : ""}`;
   }
   return (
-    <div className={`${categories.length ? "h-10 flex flex-row w-full items-center" : ""}`}>
+    <div className={`${categories.length ? "h-14 flex flex-row w-full items-center bg-gray-100" : ""}`}>
       {categories.length > 0 &&
         <NavLink className={(_) => getTabStyle(0)} to={'./'} onClick={() => { setTab(0) }}>
           全部

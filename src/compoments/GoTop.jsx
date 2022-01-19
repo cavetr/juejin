@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import goTop from "../img/goTop.svg"
+import goTop from "../img/goTop.svg";
 function GoTop({ el }) {
   const goTopBox = useRef(null);
   useEffect(() => {

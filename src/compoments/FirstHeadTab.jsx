@@ -7,11 +7,11 @@ function FirstHeadTab({ categories }) {
   }, [categories])
   function getTabStyle(index) {
     const isActive = (index === tab.current);
-    const tabStyle = "text-xl"
+    const tabStyle = "text-2xl"
     return `${tabStyle}${isActive ? " text-purple-600" : ""}`;
   }
   return (
-    <div className="h-10 flex flex-row justify-around w-full items-center border-b" >
+    <div className="h-16 flex flex-row justify-around w-full items-center" >
       {categories.map(({ category_id, category_name }, index) => {
         return (
           <NavLink className={(_) => getTabStyle(index)} key={category_id} to={`./${category_id}`} onClick={() => { tab.current = index }}>
