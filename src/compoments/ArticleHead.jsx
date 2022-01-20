@@ -1,7 +1,7 @@
 import goBack from '../img/goBack.svg';
 function ArticleHead({ title }) {
   return (
-    <div className="h-10 flex flex-row items-center">
+    <div className="h-16 flex flex-row items-center">
       <button className="fixed justify-self-start" onClick={() => window.history.back(-1)}>
         <img src={goBack} alt="返回" className="h-6 m-3"/>
       </button>

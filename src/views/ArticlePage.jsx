@@ -18,7 +18,7 @@ function ArticlePage() {
   return (
     <>
       <ArticleHead title={article?.article_info.title} />
-      <div className="overflow-scroll" style={{ height: "calc(100vh - 5rem)" }} ref={scrollBody}>
+      <div className="overflow-scroll" style={{ height: "calc(100vh - 9rem)" }} ref={scrollBody}>
         <article className="p-8 ">
           <div className="text-4xl font-bold">{article?.article_info.title} </div>
           <div dangerouslySetInnerHTML={{ __html: article?.article_content }} />

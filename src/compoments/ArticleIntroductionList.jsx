@@ -26,10 +26,8 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
           .map((item) => {
             return JSON.parse(item);
           });
-          console.log(allArticles)
       } else {
         allArticles = (await getArticles(category_id, params.sortType, articleNumber.current, 20)).data.articles;
-        console.log(allArticles);
       }
       if (!allArticles.length) {
         break;
@@ -62,7 +60,6 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
     <>
       <div className="overflow-scroll " style={{ height }} ref={scrollBody}>
         {articles.map((item) => {
-          console.log(articles)
           let articleId, author, content, title, time;
           if (isHistory) {
             ({ articleId, author, content, title, time } = item);

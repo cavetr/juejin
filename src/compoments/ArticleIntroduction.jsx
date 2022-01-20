@@ -17,13 +17,13 @@ function ArticleIntroduction({ articleId, author, content, title, time }) {
     // console.log(localStorage.getItem("myHistory").split("},").slice(0, 20));
   }
   return (
-    <div onClick={toArticle} className="mx-6 py-4 border-b">
+    <div onClick={toArticle} className=" mx-6 py-4 border-b">
       <p className="flex flex-row justify-between mb-2">
-        <span className="text-lg">{author}</span>
-        <span className="text-gray-500">{getDate(time * 1000)}</span>
+        <span className="text-xl">{author}</span>
+        <span className="text-gray-500 text-lg">{getDate(time * 1000)}</span>
       </p>
-      <p className="max-w-xs truncate text-xl font-bold">{title}</p>
-      <p className="">{content}</p>
+      <p className="max-w-xs truncate text-2xl font-bold m-2">{title}</p>
+      <p className="text-xl">{content}</p>
     </div>
   );
 }
