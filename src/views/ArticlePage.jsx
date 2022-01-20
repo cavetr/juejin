@@ -11,9 +11,7 @@ function ArticlePage() {
   const [article, setArticle] = useState(null);
   const scrollBody = useRef(null);
   useEffect(async () => {
-    // console.log((await getArticleById(params.articleId)).data.article);
     setArticle((await getArticleById(params.articleId)).data.article);
-    // console.log()
   }, []);
   return (
     <>

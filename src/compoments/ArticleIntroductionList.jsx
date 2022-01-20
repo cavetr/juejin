@@ -17,6 +17,7 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
     const thisArticles = [];
     while (thisArticles.length < 20) {
       let allArticles = null;
+      // 获取文章
       if (isHistory) {
         const begin = articleNumber.current;
         allArticles = localStorage
@@ -32,7 +33,7 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
       if (!allArticles.length) {
         break;
       }
-      
+      // 将文章加入列表中
       for (const article of allArticles) {
         articleNumber.current++;
         if (!articleIds.current.has(article.article_id || article.articleId)) {
@@ -48,9 +49,11 @@ function ArticleIntroductionList({ category_id, isHistory = false }) {
     setArticles([...articlesRef.current]);
   }
   useEffect(() => {
+    // 初始化
     articleIds.current = new Set();
     articleNumber.current = 0;
     articlesRef.current = [];
+    scrollBody.current.scrollTop = 0;
     getNewArticles();
   }, [category_id, isHistory]);
   const getMoreArticles = useCallback(() => {

@@ -1,6 +1,5 @@
 export default function getDate(articleDate) {
   const newDate = new Date().getTime();
-  // console.log(new Date(articleDate));
   let difS = ~~((newDate - articleDate) / 1000);
   if (difS < 60) {
     return `${difS}秒前`;

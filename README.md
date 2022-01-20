@@ -12,4 +12,4 @@ gitee地址：https://gitee.com/Cavetr/juejin
 ## 使用说明
 轻服务地址：https://cavetr.web.cloudendpoint.cn  
 移动端网页，电脑端需打开控制台  
-演示视频：
+演示视频：https://bytedancecampus1.feishu.cn/minutes/obcnrb69m2p3vk5s3qrrd9t5
